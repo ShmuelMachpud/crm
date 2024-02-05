@@ -1,0 +1,56 @@
+{
+  "name": "crm-server",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/crm-server/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/apps/crm-server",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "apps/crm-server/src/main.ts",
+        "tsConfig": "apps/crm-server/tsconfig.app.json",
+        "assets": ["apps/crm-server/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "crm-server:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "crm-server:build:development"
+        },
+        "production": {
+          "buildTarget": "crm-server:build:production"
+        }
+      }
+    }
+  },
+  "tags": []
+}
